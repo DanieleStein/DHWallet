@@ -3,8 +3,8 @@ package br.com.digitalhouse.dhwallet.android.home
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,24 +15,26 @@ import androidx.compose.ui.unit.sp
 import br.com.digitalhouse.dhwallet.android.MyApplicationTheme
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(onBack: () -> Unit) {//onBack(uma funcao que vai exucutar ()um bloco -> retorno Unit(Void)
     MyApplicationTheme {
-        Surface(modifier = Modifier.fillMaxSize(), //Toda a tela
-            color = Color(0xFFBD22D8) //Cor de fundo da tela
+        Scaffold( //Serve como Surface, porém com mais funcionalidades, como o TopBar que usaremos
+            topBar = {
+                TopAppBar(
+                    contentColor = Color.Magenta
+                ) {
+                    Text(text = "TopBar")
+                }
+            }
         ) {
-            Column(
-                verticalArrangement = Arrangement.Center, //texto fica centralizado
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(text = "Sou a Home!", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 40.sp)
+            Column(modifier = Modifier.padding(it)) {//Quando usamos Scaffold, em algumas funções ele precisa medir todos os itens da tela, e assim o botao não atrapalha nosso conteudo
+                Text(text = "Home")
             }
         }
     }
-
 }
 
 @Preview
 @Composable
 fun HomeScreen_Preview() {
-    HomeScreen()
+    HomeScreen() {}
 }

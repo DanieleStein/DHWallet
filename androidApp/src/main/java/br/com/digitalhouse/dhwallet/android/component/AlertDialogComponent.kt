@@ -27,7 +27,7 @@ fun AlertDialogComponent(
                     Text(text = "Ok", color = Color.White)
                 }
             },
-            backgroundColor = Color(0xFFBD22D8),
+            backgroundColor = Color(0x1CFD3C72), //Usando a opacidade junto na cor
             contentColor = Color.White
         )
     }

@@ -46,4 +46,5 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.5.1")
     implementation("androidx.compose.material:material-icons-extended:$iconsVersion")//Dependencia de icones para a nossa tela de login
     implementation("androidx.navigation:navigation-compose:$navVersion") //Variável com o número da versão lá em cima, aqui podemos só chamar ela
+    implementation("androidx.compose.material3:material3:1.0.1")
 }
