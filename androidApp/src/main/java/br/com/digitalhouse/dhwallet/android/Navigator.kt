@@ -29,7 +29,7 @@ fun Navigator(  //Telas do nosso app que serão navegadas
         }
         composable(Route.HOME.name) {
             HomeScreen {
-                navHostController.popBackStack()//Desta forma ele não deixara as telas empilhadas, quando voltar a tela vai sumir
+                navHostController.popBackStack()//Desta forma ele não deixara as telas empilhadas, quando voltar para a tela anterior vai sumir a tela atual
             }
         }
     }

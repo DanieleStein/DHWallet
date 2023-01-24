@@ -20,13 +20,13 @@ fun HomeScreen(onBack: () -> Unit) {//onBack(uma funcao que vai exucutar ()um bl
         Scaffold( //Serve como Surface, porém com mais funcionalidades, como o TopBar que usaremos
             topBar = {
                 TopAppBar(
-                    contentColor = Color.Magenta
+                    contentColor = Color.Magenta //Top Bar de cor margenta
                 ) {
-                    Text(text = "TopBar")
+                    Text(text = "TopBar") //texto topbar
                 }
             }
         ) {
-            Column(modifier = Modifier.padding(it)) {//Quando usamos Scaffold, em algumas funções ele precisa medir todos os itens da tela, e assim o botao não atrapalha nosso conteudo
+            Column(modifier = Modifier.padding(it)) {//Quando usamos Scaffold, em algumas funções ele precisa medir todos os itens da tela, e assim o botao não corta nosso conteudo
                 Text(text = "Home")
             }
         }
