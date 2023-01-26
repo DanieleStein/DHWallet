@@ -13,17 +13,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import br.com.digitalhouse.dhwallet.android.MyApplicationTheme
+import br.com.digitalhouse.dhwallet.android.component.CenterTopBar
+import br.com.digitalhouse.dhwallet.android.component.TopBar
 
 @Composable
 fun HomeScreen(onBack: () -> Unit) {//onBack(uma funcao que vai exucutar ()um bloco -> retorno Unit(Void)
     MyApplicationTheme {
         Scaffold( //Serve como Surface, porém com mais funcionalidades, como o TopBar que usaremos
-            topBar = {
-                TopAppBar(
-                    contentColor = Color.Magenta //Top Bar de cor margenta
-                ) {
-                    Text(text = "TopBar") //texto topbar
-                }
+            topBar = { CenterTopBar(title = "DH Wallet") {}//chamando nosso Componente CenterTopBar
             }
         ) {
             Column(modifier = Modifier.padding(it)) {//Quando usamos Scaffold, em algumas funções ele precisa medir todos os itens da tela, e assim o botao não corta nosso conteudo
