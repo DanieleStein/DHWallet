@@ -4,17 +4,22 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
-import androidx.compose.material3.Text
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.util.lerp
 import br.com.digitalhouse.dhwallet.android.R
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -23,6 +28,7 @@ import kotlin.math.absoluteValue
 
 @Composable
 fun DHCardContent() { //Será as informações que estão no cartão
+    val shadow = Shadow(Color.Black, offset = Offset(2f, 2f), blurRadius = 1f)//Sombra para nossos textos
     Column( //Deixa os itens um em cima do outro
         modifier = Modifier
             .background(
@@ -34,7 +40,7 @@ fun DHCardContent() { //Será as informações que estão no cartão
                 )
             )
             .height(202.dp)//Altura do nosso cartão
-            .padding(30.dp)//espaço das bordas(laterais) do cartao
+            .padding(horizontal = 30.dp, vertical = 24.dp)//espaço das bordas(laterais e em cima) do cartao
             .fillMaxWidth()//toda a tela,
     ) {
         Row(//Deixa os itens um do lado do outro
@@ -48,11 +54,10 @@ fun DHCardContent() { //Será as informações que estão no cartão
         }
         Spacer(modifier = Modifier.weight(1f))//Espaçamento entre as linhas verticais
         Row() {
-            Text(text = "****", fontSize = 20.sp)
-            Spacer(modifier = Modifier.weight(1f))
-            Text(text = "****", fontSize = 20.sp)
-            Spacer(modifier = Modifier.weight(1f))
-            Text(text = "****", fontSize = 20.sp)
+            MutableList(3) {//vai repetir três vezes nosso texto
+                Text(text = "****", fontSize = 20.sp, style = TextStyle(shadow = shadow))//shadow(sombra no texto)
+                Spacer(modifier = Modifier.weight(1f))
+            }
             Spacer(modifier = Modifier.weight(1f))
             Text(text = "2309", fontSize = 20.sp)
         }
@@ -60,12 +65,12 @@ fun DHCardContent() { //Será as informações que estão no cartão
         Row() {
             Column() {
                 Text(text = "NOME", fontSize = 9.sp)
-                Text(text = "DANIELE STEIN")
+                Text(text = "DANIELE STEIN", style = TextStyle(shadow = shadow))//shadow(sombra no texto)
             }
             Spacer(modifier = Modifier.weight(1f))
             Column() {
                 Text(text = "VALIDADE", fontSize = 9.sp)
-                Text(text = "09/2030")
+                Text(text = "09/2030", style = TextStyle(shadow = shadow))//shadow(sombra no texto)
             }
         }
     }
@@ -74,15 +79,27 @@ fun DHCardContent() { //Será as informações que estão no cartão
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun DHCardGroup() { //Nosso carrosel de cartão, serão três cartões para visualizar
-    HorizontalPager(count = 3) {page -> //Tres paginas de cartao
+    HorizontalPager(
+        count = 3,//Tres paginas de cartao
+        contentPadding = PaddingValues(horizontal = 32.dp),//mostrando a beirada dos outros cartões, na tela do cartão atual
+        modifier = Modifier.height(250.dp) //colocando o tamanho que o nosso cartao vai ocupar na tela, para ele não ocupar a tela toda
+    ) { page ->
         val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue//para cada pagina que estou rolando ele vai calcular e diminuir
         Card(//Fica com aparência de cartão
-            contentColor = Color.White,//não funcionou a cor do texto
-            modifier = Modifier.padding(10.dp)//espaço entre os cartões
+            contentColor = Color.White,//mudar a cor de texto(componente de texto do material.Text)
+            modifier = Modifier.graphicsLayer { //espaço entre os cartões
+             lerp(//Conforme os cartoes vao se movimentado, o cartao central vai aumentando e os laterais diminuindo
+                 start = 0.90f,//começam com 0,90
+                 stop = 1f,//e param com 1
+                 fraction = 1f - pageOffset.coerceIn(0f, 1f)//pega as fracoes para calcular o inicio 0,90 e chegar até 1
+             ).also {
+                 scaleY = it//pegando a scala(tamanho) e passando os novos valores
+                 scaleX = it
+             }
+            }
         ) {
             DHCardContent() //Chamada das informacões do cartão
         }
-
     }
 }
 

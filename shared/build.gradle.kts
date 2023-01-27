@@ -20,7 +20,8 @@ kotlin {
         // commonMain: Vou utilizar as bibliotecas que funcionam tanto para android quanto para ios
         val commonMain by getting {
             dependencies {
-
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")//lib do coroutines
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")//lib de data para o Kmm
             }
         }
         val commonTest by getting {

@@ -14,7 +14,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import br.com.digitalhouse.dhwallet.android.MyApplicationTheme
 import br.com.digitalhouse.dhwallet.android.component.CenterTopBar
+import br.com.digitalhouse.dhwallet.android.component.DHCardGroup
 import br.com.digitalhouse.dhwallet.android.component.TopBar
+import br.com.digitalhouse.dhwallet.network.Network
 
 @Composable
 fun HomeScreen(onBack: () -> Unit) {//onBack(uma funcao que vai exucutar ()um bloco -> retorno Unit(Void)
@@ -24,7 +26,8 @@ fun HomeScreen(onBack: () -> Unit) {//onBack(uma funcao que vai exucutar ()um bl
             }
         ) {
             Column(modifier = Modifier.padding(it)) {//Quando usamos Scaffold, em algumas funções ele precisa medir todos os itens da tela, e assim o botao não corta nosso conteudo
-                Text(text = "Home")
+                DHCardGroup()//Chamando nosso cartão
+                Text(text = "Transações levou: ${Network.carregarDados()} ", fontSize = 18.sp,fontWeight = FontWeight.Bold)
             }
         }
     }

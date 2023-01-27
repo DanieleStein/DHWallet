@@ -2,6 +2,7 @@ package br.com.digitalhouse.dhwallet.android.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.IconButton
 import androidx.compose.material.TopAppBar
@@ -31,12 +32,12 @@ fun CenterTopBar(title: String, onProfileNavigation: () -> Unit) { //onProfileNa
         actions = {
             IconButton(onClick = onProfileNavigation) { //Criado o botão do Profile que ficara sempre na topBar
                 Image( //Vai ser uma imagem
-                    painter = painterResource(R.drawable.ic_rectangle__1_), //R(buusca na nossa pasta res)depois drawable, depois nome da nossa magem
+                    painter = painterResource(R.drawable.photo), //R(buusca na nossa pasta res)depois drawable, depois nome da nossa magem
                     contentDescription = "Profile", //descricao da imagem(nome)
                     contentScale = ContentScale.Fit,
                     modifier = Modifier
-                        .height(25.dp)
-                        .clip(RoundedCornerShape(5.dp))
+                        .height(40.dp)
+                        .clip(CircleShape)
                 )
             }
         }
@@ -55,12 +56,12 @@ fun TopBar(title: String,onBack: () -> Unit, onProfileNavigation: () -> Unit) { 
         actions = {
             IconButton(onClick = onProfileNavigation) { //Criado o botão do Profile que ficara sempre na topBar
                 Image( //Vai ser uma imagem
-                    painter = painterResource(R.drawable.ic_rectangle__1_), //R(buusca na nossa pasta res)depois drawable, depois nome da nossa magem
+                    painter = painterResource(R.drawable.ic_baseline_account_circle_24), //R(buusca na nossa pasta res)depois drawable, depois nome da nossa magem
                     contentDescription = "Profile", //descricao da imagem(nome)
                     contentScale = ContentScale.Fit,
                     modifier = Modifier
-                        .height(25.dp)
-                        .clip(RoundedCornerShape(5.dp))
+                        .height(40.dp)
+                        .clip(CircleShape)
                 )
             }
         },
