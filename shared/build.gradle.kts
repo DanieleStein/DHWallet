@@ -1,6 +1,7 @@
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
+    kotlin("plugin.serialization") //plugin serialization
 }
 
 kotlin {
@@ -22,6 +23,7 @@ kotlin {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")//lib do coroutines
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")//lib de data para o Kmm
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")//lib serialization
             }
         }
         val commonTest by getting {

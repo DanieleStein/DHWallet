@@ -1,9 +1,15 @@
 package br.com.digitalhouse.dhwallet.network
 
+import br.com.digitalhouse.dhwallet.model.Transaction
+import br.com.digitalhouse.dhwallet.model.TransactionType
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalDate
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 object Network {
 
@@ -38,4 +44,25 @@ object Network {
 
         return dados
     }
+
+  fun loadTransaction(): List<Transaction> {//Vamos retornar uma lista de transações
+    val mockList = MutableList(5) {//Aqui vamos fazer a instancia da nossa transação
+      Transaction(
+        "https://www.freepnglogos.com/uploads/uber-logo-png-0.png",
+        "Uber",
+        TransactionType.DEBIT,
+        45.00,
+        "2023-01-29" //Colocando a nossa data da transação
+      )
+    }
+    val serializer = Json.encodeToString(mockList)
+    println("Serializando (Formato JSON)")
+    println(serializer)
+
+    print("Deserializando (Formato OBJ)")
+    val deserialize = Json.decodeFromString<List<Transaction>>(serializer)//Ele pede o formato que é <List<Transaction>>
+    println(deserialize)
+
+    return deserialize
+  }
 }

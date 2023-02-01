@@ -1,68 +1,85 @@
 package br.com.digitalhouse.dhwallet.android.component
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
+import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.digitalhouse.dhwallet.android.R
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 
 @Composable
-fun Transacao() {
-  Column(
-    modifier = Modifier
-      .background(Color.White)
-      .height(96.dp)
-      .padding(horizontal = 30.dp, vertical = 24.dp)
-      .fillMaxWidth()
+fun Transacao(
+  image: @Composable () -> Unit,//Onde é a coluna de image,recebo um composable
+  title: String, //titulo é o nome da logo
+  subtitle: String, //subtitulo, credito ou debito
+  value: @Composable () -> Unit = {}, //valor da transacao
+  onDetailNavigate: () -> Unit = {} //botao para navegar
+) {
+  Card( //ele é em formato de card
+    modifier = Modifier.padding(bottom = 0.5.dp)//padding(Bottom é que ele tem uma linha entre as transações
   ) {
-    Column() {
-      Row(
-        verticalAlignment = Alignment.CenterVertically
-      ) {
-        Column(
-          modifier = Modifier
-            .background(Color(0x1CFD3C72), shape = CircleShape)
-            .clip(CircleShape)
-            .size(50.dp)
-        ) {
-          Image(painter = painterResource(id = R.drawable.shape), contentDescription = "Shape",
-            modifier = Modifier
-              .size(27.5.dp)
-              .clip(CircleShape)
-          )
-        }
-        Spacer(modifier = Modifier.weight(0.25f))
-        Column(
-        ) {
-          Text(text = "Dribble Inc.", fontSize = 17.sp, color = Color.Black, fontWeight = FontWeight.Bold)
-          Text(text = "Crédito", fontSize = 13.sp, color = Color.Black)
-        }
-        Spacer(modifier = Modifier.weight(1f))
-        Column() {
-          Text(text = "+ R$ 45.0", fontSize = 20.sp, color = Color.Green, fontWeight = FontWeight.Bold)
-        }
+    Row( //itens na vertical
+      verticalAlignment = Alignment.CenterVertically,//alinhados na vertical
+      modifier = Modifier
+        .fillMaxWidth() //toda a tela
+        .padding(20.dp) //espaco das bordas do cartao
+        .clickable { onDetailNavigate.invoke() }
+    ) {
+      image()
+      Spacer(modifier = Modifier.width(20.dp))//espaco entre imagem e texto da coluna abaixo
+      Column {//coluna
+        Text(text = title, fontWeight = FontWeight.Bold, fontSize = 17.sp)//nosso titulo da logo
+        Text(text = subtitle, fontSize = 13.sp, color = Color.Gray) //subtitulo com o credito ou pagamento
       }
+      Spacer(modifier = Modifier.weight(1f))//espaco entre o texto e o valor
+      value()
     }
-}
+  }
 }
 
 
 @Preview
 @Composable
 fun Transacao_Preview() {
-  Transacao()
+  val painter = rememberAsyncImagePainter(model =
+  ImageRequest.Builder(LocalContext.current)
+    .data(R.drawable.shape)
+    .size(58)
+    .placeholder(R.drawable.shape)
+    .build()
+  )
+  Transacao(
+    image = {
+      Image(
+        painter = painter,
+        contentDescription = "Profile Image",
+        contentScale = ContentScale.Fit,
+        modifier = Modifier
+          .height(56.dp)//altura
+          .width(56.dp)//largura
+          .clip(CircleShape)//ajusta a imagem em circulo
+          .background(Color(0x1CFD3C72))//cor fundo da imagem com opacidade
+          .padding(10.dp)//na imagem tem o padding, vai reduzir a nossa imagem
+          .clip(CircleShape)//e vai trazer a umagem em um circulo
+      )
+    },  
+    title = "Drible Inc",
+    subtitle = "Crédito",
+    value = {
+      Text(text = "+ R$ 45,00", color = Color.Green, fontWeight = FontWeight.Bold, fontSize = 20.sp)
+    }
+  )
 }

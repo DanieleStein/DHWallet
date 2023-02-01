@@ -45,7 +45,7 @@ fun CenterTopBar(title: String, onProfileNavigation: () -> Unit) { //onProfileNa
 }
 
 @Composable
-fun TopBar(title: String,onBack: () -> Unit, onProfileNavigation: () -> Unit) { //onBack(ação de voltar)
+fun TopBar(title: String, onBack: () -> Unit, onProfileNavigation: () -> Unit) { //onBack(ação de voltar)
     TopAppBar( //Temos outra TopBar no App que é setinha,titulo e foto
         title = { Text(text = title, fontWeight = FontWeight.Bold, fontSize = 24.sp, color = Color.White) }, //Vai ser o titulo da topBar
         navigationIcon = {

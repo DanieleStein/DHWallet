@@ -30,6 +30,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import br.com.digitalhouse.dhwallet.Greeting
 import br.com.digitalhouse.dhwallet.android.component.AlertDialogComponent
 import br.com.digitalhouse.dhwallet.android.home.HomeScreen
@@ -40,6 +41,7 @@ import java.net.CacheRequest
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+      installSplashScreen() //Aqui instalamos a nossa Splash Screnn
         setContent {
            Navigator() //Chamando nosso Navegator que tem as telas do nosso App
         }
