@@ -35,9 +35,9 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-        //androidMain: Usar uma lib expecifica para rodar só no ios
+        //androidMain: Usar uma lib expecifica para rodar só no android
         val androidMain by getting {
-            dependencies { //dessa forma adicionamos a dependencia só para android
+            dependencies {
               implementation("io.ktor:ktor-client-okhttp:$ktorVersion")//controle do http com o android
             }
         }
@@ -68,9 +68,9 @@ kotlin {
 
 android {
     namespace = "br.com.digitalhouse.dhwallet"
-    compileSdk = 32
+    compileSdk = 33
     defaultConfig {
         minSdk = 24
-        targetSdk = 32
+        targetSdk = 33
     }
 }
