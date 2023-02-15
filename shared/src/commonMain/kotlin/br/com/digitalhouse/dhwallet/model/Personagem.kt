@@ -2,8 +2,8 @@ package br.com.digitalhouse.dhwallet.model
 
 import kotlinx.serialization.Serializable
 
-@Serializable //Lista de RickMorty com os personagens
-class RickMortyResult(val results: List<Personagem>)
+@Serializable
+class RickMortyResult(val results: List<Personagem>) //Lista dos pensonagens(name e image da class Pensonagem)
 
-@Serializable //Personagem, nome e Imagem
-class Personagem(val name: String, val image: String)
+@Serializable
+class Personagem(val name: String, val image: String) //Vamos pegar o name e image dos personagens da api do RickMorty

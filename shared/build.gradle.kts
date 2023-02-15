@@ -26,8 +26,8 @@ kotlin {
               implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")//lib de data para o Kmm
               implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")//lib serialization com Json, pois o serialization já foi adicionado lá em cima
               implementation("io.ktor:ktor-client-core:$ktorVersion")//lib cliente ktor
-              implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")//lib de ponte do nosso app com o servidor , com retorno json
-              implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")//lib serialization ktor, o encodeToString e decodeFromString é automágico(kkk)
+              implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")//lib de ponte do nosso app com o servidor , com retorno JSON
+              implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")//lib serialization ktor, o encodeToString(OBJETO para JSON) e decodeFromString(JSON para OBJETO) é automágico
             }
         }
         val commonTest by getting {

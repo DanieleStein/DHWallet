@@ -29,6 +29,7 @@ import br.com.digitalhouse.dhwallet.android.component.DHCardGroup
 import br.com.digitalhouse.dhwallet.android.component.TopBar
 import br.com.digitalhouse.dhwallet.android.component.Transacao
 import br.com.digitalhouse.dhwallet.api.Api
+import br.com.digitalhouse.dhwallet.model.Login
 import br.com.digitalhouse.dhwallet.network.Network
 import br.com.digitalhouse.dhwallet.network.Network.loadTransaction
 import coil.compose.rememberAsyncImagePainter
@@ -42,20 +43,23 @@ fun HomeScreen(onBack: () -> Unit) {//onBack(uma funcao que vai exucutar ()um bl
             topBar = { CenterTopBar(title = "DH Wallet") {} }//chamando nosso Componente CenterTopBar
         ) {
 
-          val scope = rememberCoroutineScope()
-          val texto = remember { mutableStateOf("Transações") } //Texto de Loading(estado inicial)
+          val scope = rememberCoroutineScope()//Scopo(vai controlar o nosso servico, se sobe ou para, se esta na main ou nao)
+          //val texto = remember { mutableStateOf("Transações") } //Texto de Loading(estado inicial)
+          val texto = remember { mutableStateOf("Loading..") } //Texto de Loading(estado inicial) para já mostrar na nossa tela, enquanto o restante esta sendo processado
 
           //Tudo que esta aqui dentro faz parte do coroutines
           LaunchedEffect(true) {//vai executar a primeira vez que o nosso componente for renderizado
             scope.launch { //Scopo(vai controlar o nosso servico, se sobe ou para, se esta na main ou nao) Launch(roda assincronamente)
-              texto.value = try { //vai pegar o texto
-                //Api.instance.login(Login("usuario@dhfood.com.br", "123456")),
-                Api.instance.getAll().results.map { it.name }.toString() //vai informar que o novo valor agora é este,(personagens da api).map(pega um dado especifico da api)
+              texto.value = try { //vai pegar o texto(vai mudar o estado assim que a api for processada(mutableStateOff) para aparecer nossos personagens
+                Api.instance.login(Login("usuario@dhfood.com.br", "123456")).token//Chamado do nosso login
+                Api.instance.getAll().results.map { it.name }.toString() //vai informar que o novo valor agora é este,(personagens da api).map(pega um dado especifico da api(no caso nome))
               } catch (e: Exception) { //se der erro, vai aparecer a mensagem de erro
                 e.message ?: "erro :("
               }
             }
           }
+          //Comentado texto, pois já estou chamando o texto lá no item dentro do lazyColunm
+          //Text(text = texto.value)//enquanto ele roda, vai aparecer a mensagem de loading
 
           //LazyColumn para ter a rolagem na tela inteira, separado por item
             LazyColumn(modifier = Modifier.padding(it)) {//Quando usamos Scaffold, em algumas funções ele precisa medir todos os itens da tela, e assim o botao não corta nosso conteudo
@@ -80,7 +84,7 @@ fun HomeScreen(onBack: () -> Unit) {//onBack(uma funcao que vai exucutar ()um bl
 
               val transaction = loadTransaction() //Instanciando a nossa lista de transações
 
-              items (transaction.size) {//size: 5(tamanho da nossa lista em loadTransactions)
+              items (transaction.size) {//transaction.size(vai replicar a lista de transactiona a quantidade de vezes(size) que foi colocado la no loadTransaction)
                 val painter = rememberAsyncImagePainter(model =
                 ImageRequest.Builder(LocalContext.current)
                   .data(transaction[it].logo)//Trazendo os valores que estão na nossa lista em LoadTransaction

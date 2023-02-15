@@ -1,8 +1,11 @@
 package br.com.digitalhouse.dhwallet.model
 
-data class Login(val usuario: String, val senha: String) {
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class Login(val email: String, val password: String) {
     fun validador(): Boolean {
-        if (usuario == "usuario@kmm.com" && senha == "12345") {
+        if (email == "usuario@kmm.com" && password == "12345") {
            return true
         } else {
            return false

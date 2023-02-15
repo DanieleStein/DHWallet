@@ -71,8 +71,8 @@ fun LoginScreen(onHomeNavigate: () -> Unit) {
 
                 Button(onClick = {
                     val conferirLogin = Login(
-                        usuario = login.value.text,
-                        senha = password.value.text
+                        email = login.value.text,
+                        password = password.value.text
                     )
                     if(conferirLogin.validador()) {
                         onHomeNavigate.invoke()
