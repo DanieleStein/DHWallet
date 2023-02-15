@@ -43,7 +43,7 @@ fun HomeScreen(onBack: () -> Unit) {//onBack(uma funcao que vai exucutar ()um bl
         ) {
 
           val scope = rememberCoroutineScope()
-          val texto = remember { mutableStateOf("Loading...") } //Texto de Loading(estado inicial)
+          val texto = remember { mutableStateOf("Transações") } //Texto de Loading(estado inicial)
 
           //Tudo que esta aqui dentro faz parte do coroutines
           LaunchedEffect(true) {//vai executar a primeira vez que o nosso componente for renderizado
@@ -59,14 +59,15 @@ fun HomeScreen(onBack: () -> Unit) {//onBack(uma funcao que vai exucutar ()um bl
 
           //LazyColumn para ter a rolagem na tela inteira, separado por item
             LazyColumn(modifier = Modifier.padding(it)) {//Quando usamos Scaffold, em algumas funções ele precisa medir todos os itens da tela, e assim o botao não corta nosso conteudo
-                item {
+
+              item {
                   DHCardGroup()//Chamando nosso cartão
+                  loadTransaction()
                 }
 
-               item {
+              item {
                  Row(
-                   modifier = Modifier
-                     .padding(20.dp),//Espaço entre as bordas do Texto
+                   modifier = Modifier.padding(20.dp),//Espaço entre as bordas do Texto
                    verticalAlignment = Alignment.CenterVertically //alinhados na vertical
                  ) {
                    Text(text = texto.value, fontSize = 16.sp, fontWeight = FontWeight.Bold)
@@ -79,12 +80,11 @@ fun HomeScreen(onBack: () -> Unit) {//onBack(uma funcao que vai exucutar ()um bl
 
               val transaction = loadTransaction() //Instanciando a nossa lista de transações
 
-              items (transaction.size) {//como vou ter mais de uma transação uso o (items) e passo a quantidad
-                //e dentro do items, passo meu conteúdo(minha transação)
+              items (transaction.size) {//size: 5(tamanho da nossa lista em loadTransactions)
                 val painter = rememberAsyncImagePainter(model =
                 ImageRequest.Builder(LocalContext.current)
-                  .data(transaction[it].logo)
-                  .size(58)
+                  .data(transaction[it].logo)//Trazendo os valores que estão na nossa lista em LoadTransaction
+                  .size(50)
                   .placeholder(R.drawable.shape)
                   .build()
                 )
@@ -103,10 +103,10 @@ fun HomeScreen(onBack: () -> Unit) {//onBack(uma funcao que vai exucutar ()um bl
                         .clip(CircleShape)//e vai trazer a umagem em um circulo
                     )
                   },
-                  title = transaction[it].title,
-                  subtitle = transaction[it].transactionType.description,
+                  title = transaction[it].title, //Trazendo os valores que estão na nossa lista em LoadTransaction
+                  subtitle = transaction[it].transactionType.description, //Trazendo os valores que estão na nossa lista em LoadTransaction
                   value = {
-                    Text(text = "+ R$ ${transaction[it].value}", color = Color.Green, fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                    Text(text = "+ R$ ${transaction[it].value}", color = Color.Green, fontWeight = FontWeight.Bold, fontSize = 20.sp)//Tranzendo os valores que estão na nossa lista em LoadTransaction
                   }
                 )
               }

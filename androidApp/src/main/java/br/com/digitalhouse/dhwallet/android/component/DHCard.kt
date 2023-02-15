@@ -56,9 +56,8 @@ fun DHCardContent() { //Será as informações que estão no cartão
         Row() {
             MutableList(3) {//vai repetir três vezes nosso texto
                 Text(text = "****", fontSize = 20.sp, style = TextStyle(shadow = shadow))//shadow(sombra no texto)
-                Spacer(modifier = Modifier.weight(1f))
+              Spacer(modifier = Modifier.weight(1f))
             }
-            Spacer(modifier = Modifier.weight(1f))
             Text(text = "2309", fontSize = 20.sp)
         }
         Spacer(modifier = Modifier.weight(1f))//Espaçamento entre as linhas verticais

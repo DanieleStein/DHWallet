@@ -20,7 +20,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.digitalhouse.dhwallet.android.MyApplicationTheme
-import br.com.digitalhouse.dhwallet.android.Route
 import br.com.digitalhouse.dhwallet.android.component.AlertDialogComponent
 import br.com.digitalhouse.dhwallet.model.Login
 

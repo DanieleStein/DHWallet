@@ -65,7 +65,7 @@ fun Transacao_Preview() {
     image = {
       Image(
         painter = painter,
-        contentDescription = "Profile Image",
+        contentDescription = "Ball",
         contentScale = ContentScale.Fit,
         modifier = Modifier
           .height(56.dp)//altura

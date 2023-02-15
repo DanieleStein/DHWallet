@@ -27,17 +27,18 @@ object Network {
     fun carregarDados(): String {
         var dados = ""
 
+      //runBlocking (informando ao coroutines que vamos rodar nosso codigo na mainThread
         runBlocking { //função do coroutines que roda todo o nosso código sincronamente dentro da main thread
             val start = Clock.System.now().toEpochMilliseconds() //vai pegar o milisegundos
             //println(login1())//rodando sincronamente
             //println(perfil())//rodando sincronamente
 
             //Agora rodar de forma assincrona, os 2 em threads separadas.
-            val loginAsync = async { login1() } //vai rodar estes dois de forma assincrona, os dois separdos mas ao mesmo tempo
+            val loginAsync = async { login1() } //vai rodar estes dois de forma assincrona, os dois separados mas ao mesmo tempo
             val perfilAsync = async { perfil() }
 
             println(loginAsync.await())
-            println(perfilAsync.await()) //await vai juntar os dois e trazer o resultado
+            println(perfilAsync.await()) //aqui vai juntar os dois e trazer o resultado dos dois
 
             dados = "Tempo: ${(Clock.System.now().toEpochMilliseconds() - start)/1000} segundos"
         }
@@ -46,7 +47,7 @@ object Network {
     }
 
   fun loadTransaction(): List<Transaction> {//Vamos retornar uma lista de transações
-    val mockList = MutableList(5) {//Aqui vamos fazer a instancia da nossa transação
+    val mockList = MutableList(5) {//Aqui vamos fazer a instancia da nossa transação e a quantidade de itens da lista
       Transaction(
         "https://www.freepnglogos.com/uploads/uber-logo-png-0.png",
         "Uber",
@@ -55,12 +56,12 @@ object Network {
         "2023-01-29" //Colocando a nossa data da transação
       )
     }
-    val serializer = Json.encodeToString(mockList)
+    val serializer = Json.encodeToString(mockList) //Transformando de OBJETO para JSON
     println("Serializando (Formato JSON)")
     println(serializer)
 
+    val deserialize = Json.decodeFromString<List<Transaction>>(serializer)//Ele pede o formato que é <List<Transaction>>//Transformando de JSON para OBJETO
     print("Deserializando (Formato OBJ)")
-    val deserialize = Json.decodeFromString<List<Transaction>>(serializer)//Ele pede o formato que é <List<Transaction>>
     println(deserialize)
 
     return deserialize

@@ -7,7 +7,7 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
-object DateSerializer: KSerializer<String> {//Vai extender de KSerialLizer(classe pronta) e o retorno é LocalDate
+object DateSerializer: KSerializer<String> {//Vai extender de KSerialLizer(classe pronta) e o retorno é String
 
   //Descripitor(vamos transformar nos nossos tipos primitivos(Vai ser nosso Date de String
   override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("Date", PrimitiveKind.STRING)
