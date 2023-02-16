@@ -5,7 +5,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -16,9 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.VerticalAlignmentLine
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,15 +25,10 @@ import br.com.digitalhouse.dhwallet.android.MyApplicationTheme
 import br.com.digitalhouse.dhwallet.android.R
 import br.com.digitalhouse.dhwallet.android.component.CenterTopBar
 import br.com.digitalhouse.dhwallet.android.component.DHCardGroup
-import br.com.digitalhouse.dhwallet.android.component.TopBar
 import br.com.digitalhouse.dhwallet.android.component.Transacao
-import br.com.digitalhouse.dhwallet.model.Profile
 import br.com.digitalhouse.dhwallet.model.Transaction
-import br.com.digitalhouse.dhwallet.network.Network
-import br.com.digitalhouse.dhwallet.network.Network.loadTransaction
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -44,7 +36,7 @@ fun HomeScreen(onBack: () -> Unit) {//onBack(uma funcao que vai exucutar ()um bl
 
   val viewModel = viewModel<HomeViewModel>()
   val transactions by viewModel.transactions.collectAsState()
-  val profile by viewModel.profile.collectAsState()
+  //val profile by viewModel.profile.collectAsState()
 
   MyApplicationTheme {
     Scaffold( //Serve como Surface, porém com mais funcionalidades, como o TopBar que usaremos
@@ -96,7 +88,7 @@ fun ContentHome(transactions: List<Transaction>) {
       val painter = rememberAsyncImagePainter(
         model =
         ImageRequest.Builder(LocalContext.current)
-          .data(transactions[it].logo + "?q=$it")//Trazendo os valores que estão na nossa lista em LoadTransaction
+          .data(transactions[it].logo + "?q=$it")//Trazendo o logo da api, e colocando um final nele para ele trazer imagens aleatorias("?q=$it")
           .size(50)
           .placeholder(R.drawable.shape)
           .build()
