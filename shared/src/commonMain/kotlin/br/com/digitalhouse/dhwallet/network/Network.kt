@@ -46,24 +46,10 @@ object Network {
         return dados
     }
 
-  fun loadTransaction(): List<Transaction> {//Vamos retornar uma lista de transações
-    val mockList = MutableList(5) {//Aqui vamos fazer a instancia da nossa transação e a quantidade de itens da lista
-      Transaction(
-        "https://www.freepnglogos.com/uploads/uber-logo-png-0.png",
-        "Uber",
-        TransactionType.DEBIT,
-        45.00,
-        "2023-01-29" //Colocando a nossa data da transação
-      )
-    }
-    val serializer = Json.encodeToString(mockList) //Transformando de OBJETO para JSON
-    println("Serializando (Formato JSON)")
-    println(serializer)
+  fun loadTransaction(): List<Transaction> {
+    val mockData =
+      "[{\"logo\":\"https://media.licdn.com/dms/image/C4E03AQGzYGYIlmUzbg/profile-displayphoto-shrink_800_800/0/1640531489913?e=2147483647&v=beta&t=qmWLp-OvACiTmOfMIYk-T3bCq1R-KQkB7jXM9UsGvfI\",\"title\":\"Uber\",\"transactionType\":\"DEBIT\",\"value\":45.0,\"date\":\"2023-01-26\"},{\"logo\":\"https://media.licdn.com/dms/image/C4E03AQGzYGYIlmUzbg/profile-displayphoto-shrink_800_800/0/1640531489913?e=2147483647&v=beta&t=qmWLp-OvACiTmOfMIYk-T3bCq1R-KQkB7jXM9UsGvfI\",\"title\":\"Uber\",\"transactionType\":\"DEBIT\",\"value\":45.0,\"date\":\"2023-01-26\"},{\"logo\":\"https://media.licdn.com/dms/image/C4E03AQGzYGYIlmUzbg/profile-displayphoto-shrink_800_800/0/1640531489913?e=2147483647&v=beta&t=qmWLp-OvACiTmOfMIYk-T3bCq1R-KQkB7jXM9UsGvfI\",\"title\":\"Uber\",\"transactionType\":\"DEBIT\",\"value\":45.0,\"date\":\"2023-01-26\"},{\"logo\":\"https://media.licdn.com/dms/image/C4E03AQGzYGYIlmUzbg/profile-displayphoto-shrink_800_800/0/1640531489913?e=2147483647&v=beta&t=qmWLp-OvACiTmOfMIYk-T3bCq1R-KQkB7jXM9UsGvfI\",\"title\":\"Uber\",\"transactionType\":\"DEBIT\",\"value\":45.0,\"date\":\"2023-01-26\"},{\"logo\":\"https://media.licdn.com/dms/image/C4E03AQGzYGYIlmUzbg/profile-displayphoto-shrink_800_800/0/1640531489913?e=2147483647&v=beta&t=qmWLp-OvACiTmOfMIYk-T3bCq1R-KQkB7jXM9UsGvfI\",\"title\":\"Uber\",\"transactionType\":\"DEBIT\",\"value\":45.0,\"date\":\"2023-01-26\"}]"
 
-    val deserialize = Json.decodeFromString<List<Transaction>>(serializer)//Ele pede o formato que é <List<Transaction>>//Transformando de JSON para OBJETO
-    print("Deserializando (Formato OBJ)")
-    println(deserialize)
-
-    return deserialize
+    return Json.decodeFromString(mockData)
   }
 }

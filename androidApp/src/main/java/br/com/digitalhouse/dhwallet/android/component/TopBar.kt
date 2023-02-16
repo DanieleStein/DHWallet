@@ -81,6 +81,5 @@ fun CenterTopBar_Preview() {
 @Preview
 fun TopBar_Preview() {
     TopBar(title = "Olá souTopBar", onBack = { /*TODO*/ }) {
-
     }
 }
