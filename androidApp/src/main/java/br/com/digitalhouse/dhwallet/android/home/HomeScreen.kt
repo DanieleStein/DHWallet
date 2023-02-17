@@ -27,6 +27,7 @@ import br.com.digitalhouse.dhwallet.android.component.CenterTopBar
 import br.com.digitalhouse.dhwallet.android.component.DHCardGroup
 import br.com.digitalhouse.dhwallet.android.component.Transacao
 import br.com.digitalhouse.dhwallet.model.Transaction
+import br.com.digitalhouse.dhwallet.util.DataResult
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 
@@ -36,18 +37,29 @@ fun HomeScreen(onBack: () -> Unit) {//onBack(uma funcao que vai exucutar ()um bl
 
   val viewModel = viewModel<HomeViewModel>()
   val transactions by viewModel.transactions.collectAsState()
-  //val profile by viewModel.profile.collectAsState()
+  val profile by viewModel.profile.collectAsState()
 
   MyApplicationTheme {
     Scaffold( //Serve como Surface, porém com mais funcionalidades, como o TopBar que usaremos
       topBar = { CenterTopBar(title = "DH Wallet") {} },//chamando nosso Componente CenterTopBar
     ) { _ ->
-      if (transactions.isEmpty()) {
-        LoadingIndicator()
-      } else {
-        ContentHome(transactions)
+      when (transactions) { //quando recebermos Transactions
+        is DataResult.Loading -> LoadingIndicator() //se for do tipo dataResult.Loading vai mostrar o LoadingIndicator
+        is DataResult.Error -> ErrorMessage((transactions as DataResult.Error).error) //se for do tipo dataResult.Error vai mostrar o Transactions.error
+        is DataResult.Sucess -> ContentHome(transactions = (transactions as DataResult.Sucess<List<Transaction>>).data) //se for do tipo dataResult.Sucess vai mostrar a ContentHome com a lista de Transactions
+        else -> Unit //nenhum dos casos acima, vamos dar um Unit
       }
     }
+  }
+}
+
+@Composable
+fun ErrorMessage(error: Throwable) {
+  Column(
+    verticalArrangement = Arrangement.Center,
+    horizontalAlignment = Alignment.CenterHorizontally
+  ) {
+    Text(text ="Ops! Deu erro ${error.message}") //Vou pegar a mensagem que vier na nossa requisição($error.message)
   }
 }
 
