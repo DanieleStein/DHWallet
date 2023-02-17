@@ -14,6 +14,6 @@ fun <T : Any> Flow<DataResult<T>>.updateState() =
       false
     }
   }
-    .onStart { emit(DataResult.Loading(isLoading = true)) } //Quando iniciar o DataResult será de Loading é true
+    .onStart { emit(DataResult.Loading) } //Quando iniciar o DataResult será de Loading é true
     .catch { emit(DataResult.Error(it)) } //Se der um erro da API, vai mostrar o Data Result de erro
     //.onCompletion { emit(DataResult.Loading(isLoading = false)) } //Exibe estado de Loading novamente mas escondido(App vai dar sucesso, passa pelo loading, exibe os dados, ele termina e esconde loading

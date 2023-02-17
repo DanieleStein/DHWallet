@@ -33,7 +33,7 @@ import coil.request.ImageRequest
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun HomeScreen(onBack: () -> Unit) {//onBack(uma funcao que vai exucutar ()um bloco -> retorno Unit(Void)
+fun HomeScreen(onProfileNavigation: () -> Unit, onItemDetail: (Int) -> Unit) {//onBack(uma funcao que vai exucutar ()um bloco -> retorno Unit(Void)
 
   val viewModel = viewModel<HomeViewModel>()
   val transactions by viewModel.transactions.collectAsState()
@@ -41,12 +41,14 @@ fun HomeScreen(onBack: () -> Unit) {//onBack(uma funcao que vai exucutar ()um bl
 
   MyApplicationTheme {
     Scaffold( //Serve como Surface, porém com mais funcionalidades, como o TopBar que usaremos
-      topBar = { CenterTopBar(title = "DH Wallet") {} },//chamando nosso Componente CenterTopBar
+      topBar = { CenterTopBar(
+        title = "DH Wallet",
+        onProfileNavigation = onProfileNavigation) },//chamando nosso Componente CenterTopBar
     ) { _ ->
       when (transactions) { //quando recebermos Transactions
         is DataResult.Loading -> LoadingIndicator() //se for do tipo dataResult.Loading vai mostrar o LoadingIndicator
         is DataResult.Error -> ErrorMessage((transactions as DataResult.Error).error) //se for do tipo dataResult.Error vai mostrar o Transactions.error
-        is DataResult.Sucess -> ContentHome(transactions = (transactions as DataResult.Sucess<List<Transaction>>).data) //se for do tipo dataResult.Sucess vai mostrar a ContentHome com a lista de Transactions
+        is DataResult.Sucess ->  ContentHome(transactions as DataResult.Sucess<List<Transaction>>, onItemDetail) //se for do tipo dataResult.Sucess vai mostrar a ContentHome com a lista de Transactions
         else -> Unit //nenhum dos casos acima, vamos dar um Unit
       }
     }
@@ -75,7 +77,9 @@ fun LoadingIndicator() {
 }
 
 @Composable
-fun ContentHome(transactions: List<Transaction>) {
+fun ContentHome(resultado : DataResult.Sucess<List<Transaction>>, onItemDetail: (Int) -> Unit) {
+  val transactions = resultado.data
+
   LazyColumn() {
 
     item {
@@ -89,7 +93,7 @@ fun ContentHome(transactions: List<Transaction>) {
       ) {
         Text(text = "Transações", fontSize = 16.sp, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.weight(1f)) //espaço entre a escrita e a seta
-        IconButton(onClick = { /*TODO*/ }) {
+        IconButton(onClick = { onItemDetail.invoke(1) }) {
           Icon(Icons.Filled.ArrowForward, "backIcon", tint = Color.Black)
         }
       }
@@ -133,5 +137,5 @@ fun ContentHome(transactions: List<Transaction>) {
 @Preview
 @Composable
 fun HomeScreen_Preview() {
-    HomeScreen() {}
+    HomeScreen(onItemDetail = {}, onProfileNavigation = {})
 }
