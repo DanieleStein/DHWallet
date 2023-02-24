@@ -1,6 +1,7 @@
 package br.com.digitalhouse.dhwallet.android.home
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -76,6 +77,7 @@ fun LoadingIndicator() {
   }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ContentHome(resultado : DataResult.Sucess<List<Transaction>>, onItemDetail: (Int) -> Unit) { //aqui no content
   val transactions = resultado.data
@@ -99,40 +101,48 @@ fun ContentHome(resultado : DataResult.Sucess<List<Transaction>>, onItemDetail: 
       }
     }
 
+    val grouping = transactions.groupBy { it.date } //Vai agrupar todos que tenham a mesma data(rola a data a té a proxima data e após ficxa a segunda enquanto rola os itens
 
-    items (transactions.size) {//transaction.size(vai replicar a lista de transactiona a quantidade de vezes(size) que foi colocado la no loadTransaction)
-      val painter = rememberAsyncImagePainter(
-        model =
-        ImageRequest.Builder(LocalContext.current)
-          .data(transactions[it].logo + "?q=$it")//Trazendo o logo da api, e colocando um final nele para ele trazer imagens aleatorias("?q=$it")
-          .size(50)
-          .placeholder(R.drawable.shape)
-          .build()
-      )
-      Transacao(
-        image = {
-          Image(
-            painter = painter,
-            contentDescription = "Profile Image",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-              .height(56.dp)//altura
-              .width(56.dp)//largura
-              .clip(CircleShape)//ajusta a imagem em circulo
-              .background(Color(0x1CFD3C72))//cor fundo da imagem com opacidade
-              .padding(10.dp)//na imagem tem o padding, vai reduzir a nossa imagem
-              .clip(CircleShape)//e vai trazer a umagem em um circulo
-          )
-        },
-        title = transactions[it].title, //Trazendo os valores que estão na nossa lista em LoadTransaction
-        subtitle = transactions[it].transactionType.description, //Trazendo os valores que estão na nossa lista em LoadTransaction
-        value = {
-          Text(text = "R$ ${transactions[it].value}", color = Color.Green, fontWeight = FontWeight.Bold, fontSize = 20.sp)//Tranzendo os valores que estão na nossa lista em LoadTransaction
-        },
-      )
+    grouping.forEach { (date, trans) ->
+      stickyHeader { 
+        Text(text = "${date.dayOfMonth}/${date.month}", modifier = Modifier.fillMaxWidth().background(Color.Gray))
+      }
+
+      items(trans.size) {
+        val painter = rememberAsyncImagePainter(
+          model =
+          ImageRequest.Builder(LocalContext.current)
+            .data(transactions[it].logo + "?q=$it")//Trazendo o logo da api, e colocando um final nele para ele trazer imagens aleatorias("?q=$it")
+            .size(50)
+            .placeholder(R.drawable.shape)
+            .build()
+        )
+        Transacao(
+          image = {
+            Image(
+              painter = painter,
+              contentDescription = "Profile Image",
+              contentScale = ContentScale.Crop,
+              modifier = Modifier
+                .height(56.dp)//altura
+                .width(56.dp)//largura
+                .clip(CircleShape)//ajusta a imagem em circulo
+                .background(Color(0x1CFD3C72))//cor fundo da imagem com opacidade
+                .padding(10.dp)//na imagem tem o padding, vai reduzir a nossa imagem
+                .clip(CircleShape)//e vai trazer a umagem em um circulo
+            )
+          },
+          title = transactions[it].title, //Trazendo os valores que estão na nossa lista em LoadTransaction
+          subtitle = transactions[it].transactionType.description, //Trazendo os valores que estão na nossa lista em LoadTransaction
+          value = {
+            Text(text = "R$ ${transactions[it].value}", color = Color.Green, fontWeight = FontWeight.Bold, fontSize = 20.sp)//Tranzendo os valores que estão na nossa lista em LoadTransaction
+          },
+        )
+      }
     }
   }
 }
+
 
 @Preview
 @Composable

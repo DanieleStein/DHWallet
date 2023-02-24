@@ -16,7 +16,7 @@ data class Transaction( //Todos os valores aqui, estão batendo com a nossa api(
   val value: Double,
   //@Serializable(with = DateSerializer::class)//no momento que a nossa data for serializada, ele vai usar o nosso Objeto DateSerializer(passando a data formatada "dd/mm/aaaa"
   @SerialName("createdAt")//Colocamos isso para informar o nome que vem da nossa api
-  val date: String //Data da transação
+  val date: LocalDate //Data da transação
 )
 
 @Serializable

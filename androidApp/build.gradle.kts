@@ -53,4 +53,5 @@ dependencies {
     implementation("androidx.core:core-splashscreen:1.0.0")//Lib da tela SplashScreen
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
     implementation("com.github.tehras:charts:0.2.4-alpha")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")//lib de data para o Kmm
 }
