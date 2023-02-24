@@ -1,5 +1,6 @@
 package br.com.digitalhouse.dhwallet.android.home
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.digitalhouse.dhwallet.api.Api
@@ -16,7 +17,18 @@ import kotlinx.coroutines.launch
 //Aqui vamos receber o flow(ficar observando) e mandar para algum lugar
 //Se inscreve que queremos aquele item por aqui(observa e pega os dados) e no nosso composable muda esses dados de estado
 
-class HomeViewModel(val repository: TransactionRepository = TransactionRepository.instance): ViewModel() { //Trazendo a instancia da nossa TransactionsRepository//Herdando de ViewModel
+class HomeViewModel(
+  private val repository: TransactionRepository = TransactionRepository.instance,
+  //private val savedStateHandle: SavedStateHandle //Vamos usar para não perder(salva em disco) a pesquisa(valor que digitou) que o usuario esta fazendo, quando ele recebe um ligação
+  //savedStateHandle(recupera o dado do disco, e joga novamente para a tela de usuário) se atela virar, ele não perde os dados informados, pois quando muda o esrtado ele recupera os dados
+
+): ViewModel() { //Trazendo a instancia da nossa TransactionsRepository//Herdando de ViewModel
+
+ //private val search: StateFlow<String> = savedStateHandle.getStateFlow("search_key", "") // search(lá na nossa screen vamos recuperar ele, assim como com o transaction)
+
+  //fun inputSearch(query: String) { //função vai receber o que o usuario colocar de valor(pesquisa)(query: String)
+  //  savedStateHandle["search_key"] = query //cada valor digitado, será salvo
+  //}
 
   private val _transactions = MutableStateFlow<DataResult<List<Transaction>>>(DataResult.Empty) //emptyList(valor inicial sao de lista vazias)
   val transactions: StateFlow<DataResult<List<Transaction>>> = _transactions //Tenho um valor imutavel, e ninguem vai poder alterar esse valor, por isso colocamos a lista mutavel aqui dentro, para nao ser alterada

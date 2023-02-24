@@ -33,7 +33,7 @@ import coil.request.ImageRequest
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun HomeScreen(onProfileNavigation: () -> Unit, onItemDetail: (Int) -> Unit) {//onBack(uma funcao que vai exucutar ()um bloco -> retorno Unit(Void)
+fun HomeScreen(onProfileNavigation: () -> Unit, onItemDetail: (Int) -> Unit) {//onBack(uma funcao que vai exucutar ()um bloco -> retorno Unit(Void)/onItemDetail(aqui na home vai jogar para o navigation)
 
   val viewModel = viewModel<HomeViewModel>()
   val transactions by viewModel.transactions.collectAsState()
@@ -48,7 +48,7 @@ fun HomeScreen(onProfileNavigation: () -> Unit, onItemDetail: (Int) -> Unit) {//
       when (transactions) { //quando recebermos Transactions
         is DataResult.Loading -> LoadingIndicator() //se for do tipo dataResult.Loading vai mostrar o LoadingIndicator
         is DataResult.Error -> ErrorMessage((transactions as DataResult.Error).error) //se for do tipo dataResult.Error vai mostrar o Transactions.error
-        is DataResult.Sucess ->  ContentHome(transactions as DataResult.Sucess<List<Transaction>>, onItemDetail) //se for do tipo dataResult.Sucess vai mostrar a ContentHome com a lista de Transactions
+        is DataResult.Sucess ->  ContentHome(transactions as DataResult.Sucess<List<Transaction>>, onItemDetail) //se for do tipo dataResult.Sucess vai mostrar a ContentHome com a lista de Transactions/onItemetail vai jogar para o item de cima, que é nos paramentros
         else -> Unit //nenhum dos casos acima, vamos dar um Unit
       }
     }
@@ -77,7 +77,7 @@ fun LoadingIndicator() {
 }
 
 @Composable
-fun ContentHome(resultado : DataResult.Sucess<List<Transaction>>, onItemDetail: (Int) -> Unit) {
+fun ContentHome(resultado : DataResult.Sucess<List<Transaction>>, onItemDetail: (Int) -> Unit) { //aqui no content
   val transactions = resultado.data
 
   LazyColumn() {
@@ -93,7 +93,7 @@ fun ContentHome(resultado : DataResult.Sucess<List<Transaction>>, onItemDetail: 
       ) {
         Text(text = "Transações", fontSize = 16.sp, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.weight(1f)) //espaço entre a escrita e a seta
-        IconButton(onClick = { onItemDetail.invoke(1) }) {
+        IconButton(onClick = { onItemDetail.invoke(1) }) { //chamada de dentro pra fora, vai invokar e vai jogar para o item de cima(DataResultSucess(ContentHome))
           Icon(Icons.Filled.ArrowForward, "backIcon", tint = Color.Black)
         }
       }

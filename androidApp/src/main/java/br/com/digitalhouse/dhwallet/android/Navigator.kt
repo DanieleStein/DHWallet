@@ -31,7 +31,8 @@ fun Navigator(  //Telas do nosso app que serão navegadas
       composable(Route.HOME.name) {
         HomeScreen(
           onProfileNavigation = { navHostController.popBackStack() }, //Desta forma ele não deixara as telas empilhadas, quando voltar para a tela anterior vai sumir a tela atual
-          onItemDetail = { navHostController.navigate("${Route.TRANSACTIONS}/$it") }
+          onItemDetail = { params -> //aquele item em parenteses é o que estou passando aqui como paramentro(id da transação)
+            navHostController.navigate("${Route.TRANSACTIONS}/$params") }
         )
       }
       composable("${Route.TRANSACTIONS}/{id}") {
